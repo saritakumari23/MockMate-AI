@@ -55,7 +55,7 @@
                     <!-- Response Input -->
                     <div class="mb-4">
                         <label for="response-input" class="form-label fw-bold">
-                            <i class="bi bi-chat-text"></i> Your Response
+                            <i class="bi bi-chat-text text-white"> Your Response</i>
                         </label>
                         <div class="input-group">
                             <textarea class="form-control" id="response-input" rows="6" 
@@ -65,8 +65,8 @@
                             </button>
                         </div>
                         <div class="form-text">
-                            <i class="bi bi-info-circle"></i> 
-                            Use the microphone button for voice input, or type your response.
+                            <i class="bi bi-info-circle text-white"> 
+                            Use the microphone button for voice input, or type your response.</i>
                         </div>
                     </div>
 
@@ -99,8 +99,8 @@
     <div class="col-lg-4">
         <!-- Session Info -->
         <div class="card border-0 shadow mb-4">
-            <div class="card-header bg-light">
-                <h6 class="mb-0">
+            <div class="card-header bg-light ">
+                <h6 class="mb-0 text-black">
                     <i class="bi bi-info-circle"></i> Session Info
                 </h6>
             </div>
@@ -118,10 +118,10 @@
                     </div>
                 </div>
                 <hr>
-                <div class="mb-2">
+                <div class="mb-2 text-white">
                     <strong>Difficulty:</strong> <span id="current-difficulty">Beginner</span>
                 </div>
-                <div class="mb-2">
+                <div class="mb-2 text-white">
                     <strong>Duration:</strong> <span id="session-duration">0 min</span>
                 </div>
             </div>
@@ -130,7 +130,7 @@
         <!-- Recent Feedback -->
         <div class="card border-0 shadow mb-4">
             <div class="card-header bg-light">
-                <h6 class="mb-0">
+                <h6 class="mb-0 text-black">
                     <i class="bi bi-chat-square-text"></i> Recent Feedback
                 </h6>
             </div>
@@ -160,17 +160,17 @@
 <!-- Feedback Modal -->
 <div class="modal fade" id="feedbackModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header bg-dark text-white">
                 <h5 class="modal-title">
                     <i class="bi bi-chat-square-text"></i> Response Feedback
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body" id="feedback-content">
+            <div class="modal-body bg-dark text-white" id="feedback-content">
                 <!-- Feedback content will be inserted here -->
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer bg-dark">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" id="continue-interview">Continue</button>
             </div>
