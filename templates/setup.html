@@ -17,14 +17,14 @@
                     <div class="row g-4">
                         <!-- Name -->
                         <div class="col-12">
-                            <label for="name" class="form-label fw-bold">Your Name</label>
+                            <label for="name" class="form-label fw-bold text-white">Your Name</label>
                             <input type="text" class="form-control form-control-lg" id="name" name="name" 
                                    placeholder="Enter your name" required>
                         </div>
 
                         <!-- Career Field -->
                         <div class="col-md-6">
-                            <label for="career_field" class="form-label fw-bold">Career Field</label>
+                            <label for="career_field" class="form-label fw-bold text-white">Career Field</label>
                             <select class="form-select form-select-lg" id="career_field" name="career_field" required>
                                 <option value="">Select your career field</option>
                                 {% for field in career_fields %}
@@ -35,7 +35,7 @@
 
                         <!-- Experience Level -->
                         <div class="col-md-6">
-                            <label for="experience_level" class="form-label fw-bold">Experience Level</label>
+                            <label for="experience_level" class="form-label fw-bold text-white">Experience Level</label>
                             <select class="form-select form-select-lg" id="experience_level" name="experience_level" required>
                                 <option value="">Select your experience level</option>
                                 <option value="student">Student/Recent Graduate</option>
@@ -47,14 +47,14 @@
 
                         <!-- Target Role -->
                         <div class="col-12">
-                            <label for="target_role" class="form-label fw-bold">Target Role/Position</label>
+                            <label for="target_role" class="form-label fw-bold text-white">Target Role/Position</label>
                             <input type="text" class="form-control form-control-lg" id="target_role" name="target_role" 
                                    placeholder="e.g., Software Engineer, Data Scientist, Product Manager" required>
                         </div>
 
                         <!-- Interview Type -->
                         <div class="col-12">
-                            <label for="interview_type" class="form-label fw-bold">Interview Type Focus</label>
+                            <label for="interview_type" class="form-label fw-bold text-white">Interview Type Focus</label>
                             <select class="form-select form-select-lg" id="interview_type" name="interview_type" required>
                                 <option value="">Select interview type</option>
                                 {% for category in interview_categories %}
@@ -82,20 +82,23 @@
                 </h5>
                 <ul class="list-unstyled mb-0">
                     <li class="mb-2">
-                        <i class="bi bi-check-circle text-success"></i>
+                        <i class="bi bi-check-circle text-success text-white">
                         Be specific about your target role for more relevant questions
+                    </i>
                     </li>
                     <li class="mb-2">
-                        <i class="bi bi-check-circle text-success"></i>
+                        <i class="bi bi-check-circle text-success text-white">
                         Choose your actual experience level for appropriate difficulty
+                    </i>
                     </li>
                     <li class="mb-2">
-                        <i class="bi bi-check-circle text-success"></i>
+                        <i class="bi bi-check-circle text-success text-white">
                         Select interview types you want to practice most
+                    </i>
                     </li>
                     <li>
-                        <i class="bi bi-check-circle text-success"></i>
-                        You can always adjust settings during your session
+                        <i class="bi bi-check-circle text-success text-white">
+                        You can always adjust settings during your session</i>
                     </li>
                 </ul>
             </div>

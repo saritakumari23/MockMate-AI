@@ -3,130 +3,98 @@
 {% block title %}MockMate AI - Home{% endblock %}
 
 {% block content %}
-<div class="row align-items-center min-vh-75">
-    <div class="col-lg-6">
-        <h1 class="display-4 fw-bold text-primary mb-4">
-            Master Your Interviews with MockMate AI
-        </h1>
-        <p class="lead mb-4">
-            Get personalized interview practice with AI-powered questions, real-time feedback, 
-            and adaptive difficulty levels. Perfect for students and early professionals.
-        </p>
-        <div class="d-grid gap-3 d-sm-flex">
-            <a href="{{ url_for('setup') }}" class="btn btn-primary btn-lg px-4">
-                <i class="bi bi-play-circle"></i> Start Practice Interview
-            </a>
-            <a href="{{ url_for('resources') }}" class="btn btn-outline-secondary btn-lg px-4">
-                <i class="bi bi-book"></i> View Resources
-            </a>
-        </div>
-    </div>
-    <div class="col-lg-6">
-        <div class="text-center">
-            <i class="bi bi-robot display-1 text-primary"></i>
-        </div>
+<!-- Hero Section -->
+<div class="text-center hero-section p-5 mb-5">
+    <h1 class="display-4 fw-bold">Master Your Interviews with AI</h1>
+    <p class="lead col-lg-8 mx-auto">
+        Personalized interview practice with AI-powered questions, real-time feedback, and adaptive difficulty to help you land your dream job.
+    </p>
+    <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+        <a href="{{ url_for('setup') }}" class="btn btn-primary btn-lg">
+            <i class="bi bi-play-circle-fill me-2"></i> Start a Practice Interview
+        </a>
+        <a href="{{ url_for('qa_feedback_form') }}" class="btn btn-secondary btn-lg">
+            <i class="bi bi-card-checklist me-2"></i> Get Q&A Feedback
+        </a>
     </div>
 </div>
 
 <!-- Features Section -->
-<div class="row mt-5 pt-5">
-    <div class="col-12">
-        <h2 class="text-center mb-5">Why Choose MockMate AI?</h2>
-    </div>
-</div>
-
-<div class="row g-4">
-    <div class="col-md-4">
-        <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body text-center p-4">
-                <i class="bi bi-robot text-primary display-4 mb-3"></i>
-                <h5 class="card-title">AI-Powered Questions</h5>
-                <p class="card-text">
-                    Dynamic question generation based on your career field and experience level.
-                </p>
+<div class="container px-4 py-5" id="features">
+    <h2 class="pb-2 border-bottom">Why Choose MockMate AI?</h2>
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="bi bi-robot h1 text-primary"></i>
+            </div>
+            <div>
+                <h4 class="fw-bold mb-0">AI-Powered Questions</h4>
+                <p>Dynamic question generation based on your career field and experience level.</p>
             </div>
         </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body text-center p-4">
-                <i class="bi bi-graph-up text-success display-4 mb-3"></i>
-                <h5 class="card-title">Real-time Feedback</h5>
-                <p class="card-text">
-                    Get instant evaluation with detailed feedback on strengths and areas for improvement.
-                </p>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="bi bi-graph-up-arrow h1 text-success"></i>
+            </div>
+            <div>
+                <h4 class="fw-bold mb-0">Real-time Feedback</h4>
+                <p>Instant evaluation with detailed feedback on strengths and areas for improvement.</p>
             </div>
         </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body text-center p-4">
-                <i class="bi bi-sliders text-info display-4 mb-3"></i>
-                <h5 class="card-title">Adaptive Difficulty</h5>
-                <p class="card-text">
-                    Questions automatically adjust to your performance level for optimal learning.
-                </p>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="bi bi-sliders h1 text-info"></i>
+            </div>
+            <div>
+                <h4 class="fw-bold mb-0">Adaptive Difficulty</h4>
+                <p>Questions automatically adjust to your performance level for optimal learning.</p>
             </div>
         </div>
     </div>
 </div>
 
 <!-- How It Works Section -->
-<div class="row mt-5 pt-5">
-    <div class="col-12">
-        <h2 class="text-center mb-5">How It Works</h2>
-    </div>
-</div>
-
-<div class="row g-4">
-    <div class="col-md-3">
-        <div class="text-center">
-            <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                <span class="fw-bold">1</span>
+<div class="container px-4 py-5" id="how-it-works">
+    <h2 class="pb-2 border-bottom">How It Works in 3 Simple Steps</h2>
+    <div class="row g-4 py-5">
+        <div class="col-md-4 text-center">
+            <div class="mb-3">
+                <div class="display-2 text-primary">
+                    <i class="bi bi-1-circle"></i>
+                </div>
             </div>
-            <h5>Set Your Profile</h5>
+            <h4>Set Your Profile</h4>
             <p class="text-muted">Tell us about your career goals and experience level.</p>
         </div>
-    </div>
-    <div class="col-md-3">
-        <div class="text-center">
-            <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                <span class="fw-bold">2</span>
+        <div class="col-md-4 text-center">
+            <div class="mb-3">
+                <div class="display-2 text-primary">
+                    <i class="bi bi-2-circle"></i>
+                </div>
             </div>
-            <h5>Answer Questions</h5>
+            <h4>Answer Questions</h4>
             <p class="text-muted">Respond to AI-generated interview questions naturally.</p>
         </div>
-    </div>
-    <div class="col-md-3">
-        <div class="text-center">
-            <div class="bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                <span class="fw-bold">3</span>
+        <div class="col-md-4 text-center">
+            <div class="mb-3">
+                <div class="display-2 text-primary">
+                    <i class="bi bi-3-circle"></i>
+                </div>
             </div>
-            <h5>Get Feedback</h5>
-            <p class="text-muted">Receive detailed analysis and improvement suggestions.</p>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="text-center">
-            <div class="bg-warning text-dark rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                <span class="fw-bold">4</span>
-            </div>
-            <h5>Improve & Repeat</h5>
-            <p class="text-muted">Practice more with adaptive difficulty and track progress.</p>
+            <h4>Improve & Repeat</h4>
+            <p class="text-muted">Receive detailed analysis and practice until you're confident.</p>
         </div>
     </div>
 </div>
 
 <!-- CTA Section -->
-<div class="row mt-5 pt-5">
-    <div class="col-12">
-        <div class="bg-light border rounded p-5 text-center">
-            <h3 class="mb-3 text-primary">Ready to Ace Your Next Interview?</h3>
-            <p class="lead mb-4">Join thousands of professionals who have improved their interview skills with MockMate AI.</p>
-            <a href="{{ url_for('setup') }}" class="btn btn-primary btn-lg">
-                Start Your Free Practice Session
-            </a>
-        </div>
+<div class="p-5 mb-4 bg-primary text-white rounded-3">
+    <div class="container-fluid py-5 text-center">
+        <h2 class="display-5 fw-bold">Ready to Ace Your Next Interview?</h2>
+        <p class="fs-4 col-md-8 mx-auto">Join thousands of professionals who have improved their interview skills with MockMate AI.</p>
+        <a href="{{ url_for('setup') }}" class="btn btn-secondary btn-lg mt-4">
+            Start Your Free Practice Session Now
+        </a>
     </div>
 </div>
 {% endblock %} 
