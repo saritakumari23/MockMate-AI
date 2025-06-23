@@ -1,0 +1,17 @@
+# AI Interview Coach Environment Configuration
+
+# OpenAI Configuration
+OPENAI_API_KEY=your_openai_api_key_here
+
+# Flask Configuration
+FLASK_SECRET_KEY=your_secret_key_here_change_in_production
+FLASK_DEBUG=True
+
+# Optional: Database Configuration (for future use)
+# DATABASE_URL=sqlite:///interview_coach.db
+
+# Optional: Email Configuration (for future use)
+# SMTP_SERVER=smtp.gmail.com
+# SMTP_PORT=587
+# EMAIL_USERNAME=your_email@gmail.com
+# EMAIL_PASSWORD=your_app_password 

@@ -1,0 +1,221 @@
+{% extends "base.html" %}
+
+{% block title %}Interview Results - AI Interview Coach{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>
+                <i class="bi bi-bar-chart"></i> Interview Results
+            </h2>
+            <div>
+                <a href="{{ url_for('setup') }}" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> New Session
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Summary Cards -->
+<div class="row g-4 mb-5">
+    <div class="col-md-3">
+        <div class="card border-0 shadow text-center">
+            <div class="card-body">
+                <i class="bi bi-question-circle display-4 text-primary mb-3"></i>
+                <h3 class="text-primary">{{ summary.total_questions }}</h3>
+                <p class="text-muted mb-0">Total Questions</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow text-center">
+            <div class="card-body">
+                <i class="bi bi-star display-4 text-warning mb-3"></i>
+                <h3 class="text-warning">{{ summary.average_score }}/10</h3>
+                <p class="text-muted mb-0">Average Score</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow text-center">
+            <div class="card-body">
+                <i class="bi bi-clock display-4 text-info mb-3"></i>
+                <h3 class="text-info">{{ summary.session_duration }}m</h3>
+                <p class="text-muted mb-0">Session Duration</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow text-center">
+            <div class="card-body">
+                <i class="bi bi-sliders display-4 text-success mb-3"></i>
+                <h3 class="text-success">{{ summary.difficulty_level.title() }}</h3>
+                <p class="text-muted mb-0">Final Difficulty</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Performance Analysis -->
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow mb-4">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">
+                    <i class="bi bi-graph-up"></i> Performance Analysis
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-success">
+                            <i class="bi bi-check-circle"></i> Strengths
+                        </h6>
+                        <ul class="list-unstyled">
+                            {% for strength in summary.responses[-1].evaluation.strengths %}
+                            <li class="mb-2">
+                                <i class="bi bi-check text-success"></i> {{ strength }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-warning">
+                            <i class="bi bi-exclamation-triangle"></i> Areas for Improvement
+                        </h6>
+                        <ul class="list-unstyled">
+                            {% for area in summary.responses[-1].evaluation.improvement_areas %}
+                            <li class="mb-2">
+                                <i class="bi bi-arrow-up text-warning"></i> {{ area }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question History -->
+        <div class="card border-0 shadow">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">
+                    <i class="bi bi-list-ul"></i> Question History
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="accordion" id="questionAccordion">
+                    {% for response in summary.responses %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                    data-bs-target="#collapse{{ loop.index }}">
+                                <div class="d-flex justify-content-between align-items-center w-100 me-3">
+                                    <span>Question {{ loop.index }}</span>
+                                    <span class="badge bg-{{ 'success' if response.evaluation.score >= 7 else 'warning' if response.evaluation.score >= 5 else 'danger' }}">
+                                        {{ response.evaluation.score }}/10
+                                    </span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="collapse{{ loop.index }}" class="accordion-collapse collapse" data-bs-parent="#questionAccordion">
+                            <div class="accordion-body">
+                                <div class="mb-3">
+                                    <strong>Question:</strong>
+                                    <p class="mb-2">{{ response.question }}</p>
+                                </div>
+                                <div class="mb-3">
+                                    <strong>Your Response:</strong>
+                                    <p class="mb-2">{{ response.response }}</p>
+                                </div>
+                                <div class="mb-3">
+                                    <strong>Feedback:</strong>
+                                    <p class="mb-2">{{ response.evaluation.feedback }}</p>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <strong>Strengths:</strong>
+                                        <ul class="list-unstyled">
+                                            {% for strength in response.evaluation.strengths %}
+                                            <li><i class="bi bi-check text-success"></i> {{ strength }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Weaknesses:</strong>
+                                        <ul class="list-unstyled">
+                                            {% for weakness in response.evaluation.weaknesses %}
+                                            <li><i class="bi bi-x text-danger"></i> {{ weakness }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-lg-4">
+        <!-- Categories Covered -->
+        <div class="card border-0 shadow mb-4">
+            <div class="card-header bg-light">
+                <h6 class="mb-0">
+                    <i class="bi bi-tags"></i> Categories Covered
+                </h6>
+            </div>
+            <div class="card-body">
+                {% for category in summary.categories_covered %}
+                <span class="badge bg-primary me-2 mb-2">{{ category.replace('_', ' ').title() }}</span>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Learning Resources -->
+        <div class="card border-0 shadow mb-4">
+            <div class="card-header bg-light">
+                <h6 class="mb-0">
+                    <i class="bi bi-book"></i> Recommended Resources
+                </h6>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled">
+                    {% for resource in summary.responses[-1].evaluation.resources %}
+                    <li class="mb-2">
+                        <i class="bi bi-link-45deg text-primary"></i>
+                        <a href="#" class="text-decoration-none">{{ resource }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Next Steps -->
+        <div class="card border-0 shadow">
+            <div class="card-header bg-light">
+                <h6 class="mb-0">
+                    <i class="bi bi-arrow-right-circle"></i> Next Steps
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('setup') }}" class="btn btn-primary">
+                        <i class="bi bi-plus-circle"></i> Practice More
+                    </a>
+                    <a href="{{ url_for('resources') }}" class="btn btn-outline-secondary">
+                        <i class="bi bi-book"></i> View Resources
+                    </a>
+                    <a href="{{ url_for('index') }}" class="btn btn-outline-primary">
+                        <i class="bi bi-house"></i> Back to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

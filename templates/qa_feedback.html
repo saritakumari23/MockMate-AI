@@ -1,0 +1,365 @@
+{% extends "base.html" %}
+
+{% block title %}Q&A Feedback - MockMate AI{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card border-0 shadow">
+            <div class="card-header bg-primary text-white text-center py-4">
+                <h3 class="mb-0">
+                    <i class="bi bi-chat-square-text"></i> Q&A Feedback Generator
+                </h3>
+                <p class="mb-0 mt-2">Get detailed feedback on your interview questions and answers</p>
+            </div>
+            <div class="card-body p-5">
+                <form id="qa-feedback-form">
+                    <!-- Role Input -->
+                    <div class="row mb-4">
+                        <div class="col-md-8">
+                            <label for="role" class="form-label fw-bold">Role/Position</label>
+                            <input type="text" class="form-control form-control-lg" id="role" name="role" 
+                                   placeholder="e.g., Software Engineer, Data Scientist, Product Manager" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="num-questions" class="form-label fw-bold">Number of Questions</label>
+                            <select class="form-select form-select-lg" id="num-questions" name="num_questions">
+                                <option value="3">3 Questions</option>
+                                <option value="5">5 Questions</option>
+                                <option value="7">7 Questions</option>
+                                <option value="10">10 Questions</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Generate Questions Button -->
+                    <div class="text-center mb-4">
+                        <button type="button" id="generate-questions" class="btn btn-outline-primary btn-lg">
+                            <i class="bi bi-magic"></i> Generate Questions for Role
+                        </button>
+                    </div>
+
+                    <!-- Questions and Answers Container -->
+                    <div id="qa-container">
+                        <!-- Q&A pairs will be dynamically added here -->
+                    </div>
+
+                    <!-- Add More Q&A Button -->
+                    <div class="text-center mb-4">
+                        <button type="button" id="add-qa" class="btn btn-outline-secondary">
+                            <i class="bi bi-plus-circle"></i> Add Another Q&A
+                        </button>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="text-center">
+                        <button type="submit" id="submit-feedback" class="btn btn-primary btn-lg px-5" disabled>
+                            <i class="bi bi-send"></i> Generate Feedback
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Feedback Results -->
+        <div id="feedback-results" class="card border-0 shadow mt-4 d-none">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">
+                    <i class="bi bi-check-circle"></i> Feedback Results
+                </h5>
+            </div>
+            <div class="card-body p-4">
+                <div id="feedback-content" class="feedback-text">
+                    <!-- Feedback will be displayed here -->
+                </div>
+                <div class="text-center mt-4">
+                    <button id="download-feedback" class="btn btn-outline-primary">
+                        <i class="bi bi-download"></i> Download Feedback
+                    </button>
+                    <button id="new-feedback" class="btn btn-outline-secondary ms-2">
+                        <i class="bi bi-plus-circle"></i> New Feedback
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading Modal -->
+<div class="modal fade" id="loadingModal" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body text-center p-4">
+                <div class="spinner-border text-primary mb-3" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mb-0" id="loading-text">Generating feedback...</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.feedback-text {
+    white-space: pre-line;
+    font-family: 'Courier New', monospace;
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.qa-pair {
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    background-color: #f8f9fa;
+    position: relative;
+}
+
+.qa-pair:hover {
+    border-color: #3498db;
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.1);
+}
+
+.remove-qa {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.remove-qa:hover {
+    background: #c0392b;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let qaCount = 0;
+    const qaContainer = document.getElementById('qa-container');
+    const addQaBtn = document.getElementById('add-qa');
+    const generateQuestionsBtn = document.getElementById('generate-questions');
+    const submitBtn = document.getElementById('submit-feedback');
+    const feedbackResults = document.getElementById('feedback-results');
+    const loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'));
+
+    // Add initial Q&A pair
+    addQAPair();
+
+    // Event listeners
+    addQaBtn.addEventListener('click', addQAPair);
+    generateQuestionsBtn.addEventListener('click', generateQuestions);
+    document.getElementById('qa-feedback-form').addEventListener('submit', submitFeedback);
+    document.getElementById('download-feedback').addEventListener('click', downloadFeedback);
+    document.getElementById('new-feedback').addEventListener('click', resetForm);
+
+    function addQAPair() {
+        qaCount++;
+        const qaDiv = document.createElement('div');
+        qaDiv.className = 'qa-pair';
+        qaDiv.innerHTML = `
+            <button type="button" class="remove-qa" onclick="removeQAPair(this)" title="Remove this Q&A">
+                <i class="bi bi-x"></i>
+            </button>
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <label class="form-label fw-bold">Question ${qaCount}</label>
+                    <textarea class="form-control" name="question_${qaCount}" rows="3" 
+                              placeholder="Enter the interview question..." required></textarea>
+                </div>
+                <div class="col-12">
+                    <label class="form-label fw-bold">Your Answer</label>
+                    <textarea class="form-control" name="answer_${qaCount}" rows="4" 
+                              placeholder="Enter your answer to the question..." required></textarea>
+                </div>
+            </div>
+        `;
+        qaContainer.appendChild(qaDiv);
+        updateSubmitButton();
+    }
+
+    function removeQAPair(button) {
+        if (qaContainer.children.length > 1) {
+            button.closest('.qa-pair').remove();
+            updateSubmitButton();
+        }
+    }
+
+    function updateSubmitButton() {
+        const hasContent = Array.from(qaContainer.querySelectorAll('textarea')).every(textarea => 
+            textarea.value.trim() !== ''
+        );
+        submitBtn.disabled = !hasContent;
+    }
+
+    async function generateQuestions() {
+        const role = document.getElementById('role').value.trim();
+        const numQuestions = parseInt(document.getElementById('num-questions').value);
+
+        if (!role) {
+            AIInterviewCoach.showAlert('Please enter a role first.', 'warning');
+            return;
+        }
+
+        try {
+            loadingModal.show();
+            document.getElementById('loading-text').textContent = 'Generating questions...';
+
+            const response = await AIInterviewCoach.apiCall('/api/generate-role-questions', {
+                method: 'POST',
+                body: JSON.stringify({
+                    role: role,
+                    num_questions: numQuestions
+                })
+            });
+
+            // Clear existing Q&A pairs
+            qaContainer.innerHTML = '';
+
+            // Add new Q&A pairs with generated questions
+            response.questions.forEach((question, index) => {
+                qaCount = index + 1;
+                const qaDiv = document.createElement('div');
+                qaDiv.className = 'qa-pair';
+                qaDiv.innerHTML = `
+                    <button type="button" class="remove-qa" onclick="removeQAPair(this)" title="Remove this Q&A">
+                        <i class="bi bi-x"></i>
+                    </button>
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <label class="form-label fw-bold">Question ${qaCount}</label>
+                            <textarea class="form-control" name="question_${qaCount}" rows="3" 
+                                      placeholder="Enter the interview question..." required>${question}</textarea>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Your Answer</label>
+                            <textarea class="form-control" name="answer_${qaCount}" rows="4" 
+                                      placeholder="Enter your answer to the question..." required></textarea>
+                        </div>
+                    </div>
+                `;
+                qaContainer.appendChild(qaDiv);
+            });
+
+            AIInterviewCoach.showAlert(`Generated ${response.questions.length} questions for ${role} role!`, 'success');
+            updateSubmitButton();
+
+        } catch (error) {
+            console.error('Error generating questions:', error);
+            AIInterviewCoach.showAlert('Failed to generate questions. Please try again.', 'danger');
+        } finally {
+            loadingModal.hide();
+        }
+    }
+
+    async function submitFeedback(event) {
+        event.preventDefault();
+
+        const role = document.getElementById('role').value.trim();
+        const qaPairs = [];
+
+        // Collect all Q&A pairs
+        qaContainer.querySelectorAll('.qa-pair').forEach((qaDiv, index) => {
+            const question = qaDiv.querySelector(`textarea[name="question_${index + 1}"]`).value.trim();
+            const answer = qaDiv.querySelector(`textarea[name="answer_${index + 1}"]`).value.trim();
+            
+            if (question && answer) {
+                qaPairs.push({
+                    question: question,
+                    answer: answer
+                });
+            }
+        });
+
+        if (qaPairs.length === 0) {
+            AIInterviewCoach.showAlert('Please provide at least one question and answer.', 'warning');
+            return;
+        }
+
+        try {
+            loadingModal.show();
+            document.getElementById('loading-text').textContent = 'Generating feedback...';
+
+            const response = await AIInterviewCoach.apiCall('/api/qa-feedback', {
+                method: 'POST',
+                body: JSON.stringify({
+                    role: role,
+                    questions_answers: qaPairs
+                })
+            });
+
+            // Display feedback
+            document.getElementById('feedback-content').textContent = response.feedback;
+            feedbackResults.classList.remove('d-none');
+            feedbackResults.scrollIntoView({ behavior: 'smooth' });
+
+            AIInterviewCoach.showAlert('Feedback generated successfully!', 'success');
+
+        } catch (error) {
+            console.error('Error generating feedback:', error);
+            AIInterviewCoach.showAlert('Failed to generate feedback. Please try again.', 'danger');
+        } finally {
+            loadingModal.hide();
+        }
+    }
+
+    function downloadFeedback() {
+        const feedback = document.getElementById('feedback-content').textContent;
+        const role = document.getElementById('role').value.trim();
+        const blob = new Blob([feedback], { type: 'text/plain' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `interview_feedback_${role.replace(/\s+/g, '_')}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+    }
+
+    function resetForm() {
+        document.getElementById('qa-feedback-form').reset();
+        qaContainer.innerHTML = '';
+        feedbackResults.classList.add('d-none');
+        qaCount = 0;
+        addQAPair();
+        updateSubmitButton();
+    }
+
+    // Add event listeners for textarea changes
+    qaContainer.addEventListener('input', function(e) {
+        if (e.target.tagName === 'TEXTAREA') {
+            updateSubmitButton();
+        }
+    });
+});
+
+// Global function for removing Q&A pairs
+function removeQAPair(button) {
+    const qaContainer = document.getElementById('qa-container');
+    if (qaContainer.children.length > 1) {
+        button.closest('.qa-pair').remove();
+        // Update submit button state
+        const hasContent = Array.from(qaContainer.querySelectorAll('textarea')).every(textarea => 
+            textarea.value.trim() !== ''
+        );
+        document.getElementById('submit-feedback').disabled = !hasContent;
+    }
+}
+</script>
+{% endblock %} 

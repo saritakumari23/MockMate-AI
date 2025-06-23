@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Server Error - AI Interview Coach{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6 text-center">
+        <div class="py-5">
+            <i class="bi bi-exclamation-circle display-1 text-danger mb-4"></i>
+            <h1 class="display-4 fw-bold text-primary mb-3">500</h1>
+            <h2 class="mb-4">Server Error</h2>
+            <p class="lead text-muted mb-5">
+                Something went wrong on our end. We're working to fix the issue. 
+                Please try again in a few moments.
+            </p>
+            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                <a href="{{ url_for('index') }}" class="btn btn-primary btn-lg px-4">
+                    <i class="bi bi-house"></i> Go Home
+                </a>
+                <button onclick="location.reload()" class="btn btn-outline-secondary btn-lg px-4">
+                    <i class="bi bi-arrow-clockwise"></i> Try Again
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

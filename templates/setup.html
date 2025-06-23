@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Setup Your Profile - MockMate AI{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow">
+            <div class="card-header bg-primary text-white text-center py-4">
+                <h3 class="mb-0">
+                    <i class="bi bi-person-circle"></i> Setup Your Interview Profile
+                </h3>
+                <p class="mb-0 mt-2">Help us personalize your interview experience</p>
+            </div>
+            <div class="card-body p-5">
+                <form method="POST" action="{{ url_for('setup') }}">
+                    <div class="row g-4">
+                        <!-- Name -->
+                        <div class="col-12">
+                            <label for="name" class="form-label fw-bold">Your Name</label>
+                            <input type="text" class="form-control form-control-lg" id="name" name="name" 
+                                   placeholder="Enter your name" required>
+                        </div>
+
+                        <!-- Career Field -->
+                        <div class="col-md-6">
+                            <label for="career_field" class="form-label fw-bold">Career Field</label>
+                            <select class="form-select form-select-lg" id="career_field" name="career_field" required>
+                                <option value="">Select your career field</option>
+                                {% for field in career_fields %}
+                                <option value="{{ field }}">{{ field.replace('_', ' ').title() }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Experience Level -->
+                        <div class="col-md-6">
+                            <label for="experience_level" class="form-label fw-bold">Experience Level</label>
+                            <select class="form-select form-select-lg" id="experience_level" name="experience_level" required>
+                                <option value="">Select your experience level</option>
+                                <option value="student">Student/Recent Graduate</option>
+                                <option value="entry_level">Entry Level (0-2 years)</option>
+                                <option value="mid_level">Mid Level (3-5 years)</option>
+                                <option value="senior">Senior Level (5+ years)</option>
+                            </select>
+                        </div>
+
+                        <!-- Target Role -->
+                        <div class="col-12">
+                            <label for="target_role" class="form-label fw-bold">Target Role/Position</label>
+                            <input type="text" class="form-control form-control-lg" id="target_role" name="target_role" 
+                                   placeholder="e.g., Software Engineer, Data Scientist, Product Manager" required>
+                        </div>
+
+                        <!-- Interview Type -->
+                        <div class="col-12">
+                            <label for="interview_type" class="form-label fw-bold">Interview Type Focus</label>
+                            <select class="form-select form-select-lg" id="interview_type" name="interview_type" required>
+                                <option value="">Select interview type</option>
+                                {% for category in interview_categories %}
+                                <option value="{{ category }}">{{ category.replace('_', ' ').title() }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="col-12 text-center mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg px-5">
+                                <i class="bi bi-rocket-takeoff"></i> Start Interview Practice
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tips Section -->
+        <div class="card border-0 shadow mt-4">
+            <div class="card-body p-4">
+                <h5 class="card-title text-primary">
+                    <i class="bi bi-lightbulb"></i> Tips for Better Results
+                </h5>
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2">
+                        <i class="bi bi-check-circle text-success"></i>
+                        Be specific about your target role for more relevant questions
+                    </li>
+                    <li class="mb-2">
+                        <i class="bi bi-check-circle text-success"></i>
+                        Choose your actual experience level for appropriate difficulty
+                    </li>
+                    <li class="mb-2">
+                        <i class="bi bi-check-circle text-success"></i>
+                        Select interview types you want to practice most
+                    </li>
+                    <li>
+                        <i class="bi bi-check-circle text-success"></i>
+                        You can always adjust settings during your session
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-fill target role based on career field
+    const careerFieldSelect = document.getElementById('career_field');
+    const targetRoleInput = document.getElementById('target_role');
+    
+    careerFieldSelect.addEventListener('change', function() {
+        const careerField = this.value;
+        const roleSuggestions = {
+            'software_engineering': 'Software Engineer',
+            'data_science': 'Data Scientist',
+            'product_management': 'Product Manager',
+            'marketing': 'Marketing Specialist',
+            'sales': 'Sales Representative',
+            'finance': 'Financial Analyst',
+            'consulting': 'Consultant',
+            'design': 'UX/UI Designer',
+            'human_resources': 'HR Specialist',
+            'operations': 'Operations Manager'
+        };
+        
+        if (roleSuggestions[careerField]) {
+            targetRoleInput.value = roleSuggestions[careerField];
+        }
+    });
+});
+</script>
+{% endblock %} 
