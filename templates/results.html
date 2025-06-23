@@ -25,7 +25,7 @@
             <div class="card-body">
                 <i class="bi bi-question-circle display-4 text-primary mb-3"></i>
                 <h3 class="text-primary">{{ summary.total_questions }}</h3>
-                <p class="text-muted mb-0">Total Questions</p>
+                <p class="text-white mb-0">Total Questions</p>
             </div>
         </div>
     </div>
@@ -34,7 +34,7 @@
             <div class="card-body">
                 <i class="bi bi-star display-4 text-warning mb-3"></i>
                 <h3 class="text-warning">{{ summary.average_score }}/10</h3>
-                <p class="text-muted mb-0">Average Score</p>
+                <p class="text-white mb-0">Average Score</p>
             </div>
         </div>
     </div>
@@ -43,7 +43,7 @@
             <div class="card-body">
                 <i class="bi bi-clock display-4 text-info mb-3"></i>
                 <h3 class="text-info">{{ summary.session_duration }}m</h3>
-                <p class="text-muted mb-0">Session Duration</p>
+                <p class="text-white mb-0">Session Duration</p>
             </div>
         </div>
     </div>
@@ -52,7 +52,7 @@
             <div class="card-body">
                 <i class="bi bi-sliders display-4 text-success mb-3"></i>
                 <h3 class="text-success">{{ summary.difficulty_level.title() }}</h3>
-                <p class="text-muted mb-0">Final Difficulty</p>
+                <p class="text-white mb-0">Final Difficulty</p>
             </div>
         </div>
     </div>
@@ -64,14 +64,14 @@
         <div class="card border-0 shadow mb-4">
             <div class="card-header bg-light">
                 <h5 class="mb-0">
-                    <i class="bi bi-graph-up"></i> Performance Analysis
+                    <i class="bi bi-graph-up text-black"> Performance Analysis</i>
                 </h5>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <h6 class="text-success">
-                            <i class="bi bi-check-circle"></i> Strengths
+                        <h6 class="text-success ">
+                            <i class="bi bi-check-circle text-white"> Strengths</i>
                         </h6>
                         <ul class="list-unstyled">
                             {% for strength in summary.responses[-1].evaluation.strengths %}
@@ -83,7 +83,7 @@
                     </div>
                     <div class="col-md-6">
                         <h6 class="text-warning">
-                            <i class="bi bi-exclamation-triangle"></i> Areas for Improvement
+                            <i class="bi bi-exclamation-triangle text-white"> Areas for Improvement</i>
                         </h6>
                         <ul class="list-unstyled">
                             {% for area in summary.responses[-1].evaluation.improvement_areas %}
@@ -101,7 +101,7 @@
         <div class="card border-0 shadow">
             <div class="card-header bg-light">
                 <h5 class="mb-0">
-                    <i class="bi bi-list-ul"></i> Question History
+                    <i class="bi bi-list-ul text-black"> Question History</i>
                 </h5>
             </div>
             <div class="card-body">
@@ -166,7 +166,7 @@
         <div class="card border-0 shadow mb-4">
             <div class="card-header bg-light">
                 <h6 class="mb-0">
-                    <i class="bi bi-tags"></i> Categories Covered
+                    <i class="bi bi-tags text-black"> Categories Covered</i>
                 </h6>
             </div>
             <div class="card-body">
@@ -180,7 +180,7 @@
         <div class="card border-0 shadow mb-4">
             <div class="card-header bg-light">
                 <h6 class="mb-0">
-                    <i class="bi bi-book"></i> Recommended Resources
+                    <i class="bi bi-book text-black">Recommended Resources</i> 
                 </h6>
             </div>
             <div class="card-body">
@@ -199,7 +199,7 @@
         <div class="card border-0 shadow">
             <div class="card-header bg-light">
                 <h6 class="mb-0">
-                    <i class="bi bi-arrow-right-circle"></i> Next Steps
+                    <i class="bi bi-arrow-right-circle text-black"> Next Steps</i>
                 </h6>
             </div>
             <div class="card-body">
